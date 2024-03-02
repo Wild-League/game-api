@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	'rest_framework',
+	'rest_framework.authtoken',
 	'src.api.apps.ApiConfig'
 ]
 
@@ -57,6 +59,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'src.urls'
+
+REST_FRAMEWORK = {
+	"DEFAULT_AUTHENTICATION_CLASSES": (
+		"rest_framework.authentication.SessionAuthentication",
+		"rest_framework.authentication.TokenAuthentication"
+	),
+	"DEFAULT_PERMISSION_CLASSES": (
+	    "rest_framework.permissions.IsAuthenticated",
+	),
+	"NON_FIELD_ERRORS_KEY": "errors"
+}
 
 TEMPLATES = [
 	{
