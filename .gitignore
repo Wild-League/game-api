@@ -1,2 +1,5 @@
 venv/
 __pycache__
+prod_settings.py
+.env
+waitlist.txt

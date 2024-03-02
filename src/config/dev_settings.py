@@ -1,6 +1,31 @@
 from pathlib import Path
-from os import environ, path
+from os import environ, path, getenv
 import sys
+
+from dotenv import load_dotenv
+load_dotenv()
+
+SECRET_KEY = getenv('SECRET_KEY')
+
+DEBUG = True
+
+APP_NAME = environ.get('FLY_APP_NAME')
+
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev", 'localhost']
+
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+DATABASES = {
+	"default": {
+		"ENGINE": "django.db.backends.postgresql",
+		"NAME": "wildleague",
+		"USER": "postgres",
+		"PASSWORD": "123",
+		"HOST": "localhost",
+		"PORT": "5432",
+	}
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,8 +33,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ENVIRONMENT = environ.get('ENVIRONMENT', default='dev')
 
 # DJANGO_SETTINGS_MODULE = f'src.config.{ENVIRONMENT}_settings'
-
-APP_NAME = environ.get('FLY_APP_NAME')
 
 # Application definition
 
@@ -97,4 +120,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.Users'
 
-sys.path.append(path.join(BASE_DIR, 'src'))
+sys.path.append(path.join(BASE_DIR, '../src'))
