@@ -8,7 +8,10 @@ class DeckModelViewSet(viewsets.ModelViewSet):
 	serializer_class = DeckSerializer
 
 	def retrieve(self, request, pk):
-		deck = Deck.objects.get(pk=pk)
+		try:
+			deck = Deck.objects.get(pk=pk)
+		except Deck.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
 
 		serialized_deck = DeckCardsSerializer(deck).data
 		return Response(data=serialized_deck, status=status.HTTP_200_OK)

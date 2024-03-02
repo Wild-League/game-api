@@ -18,4 +18,5 @@ COPY . /code
 
 EXPOSE 8000
 
+ENV DJANGO_SETTINGS_MODULE src.config.prod_settings
 CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "src.wsgi"]
