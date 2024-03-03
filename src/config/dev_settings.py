@@ -13,6 +13,9 @@ APP_NAME = environ.get('FLY_APP_NAME')
 
 ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev", 'localhost']
 
+FRONT_URL='http://localhost:3000/'
+DOMAIN = '@wildleague.org'
+
 MINIO = {
 	'USER': environ.get('MINIO_USER'),
 	'PASSWORD': environ.get('MINIO_PASSWORD'),
@@ -32,6 +35,10 @@ DATABASES = {
 		"PORT": "5432",
 	}
 }
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost']
+
+CSRF_COOKIE_SECURE = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,8 +71,9 @@ ROOT_URLCONF = 'src.urls'
 
 REST_FRAMEWORK = {
 	"DEFAULT_AUTHENTICATION_CLASSES": (
-		"rest_framework.authentication.SessionAuthentication",
-		"rest_framework.authentication.TokenAuthentication"
+		# 'rest_framework.authentication.SessionAuthentication',
+		# 'rest_framework.authentication.BasicAuthentication',
+		'rest_framework_simplejwt.authentication.JWTAuthentication',
 	),
 	"DEFAULT_PERMISSION_CLASSES": (
 		"rest_framework.permissions.IsAuthenticated",

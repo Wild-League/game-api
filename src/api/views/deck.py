@@ -1,8 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .serializers import DeckSerializer, UsersSerializer, DeckCardsSerializer
-from .models import Deck, Users
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from ..serializers import DeckSerializer, DeckCardsSerializer
+from ..models import Deck
 
 class DeckModelViewSet(viewsets.ModelViewSet):
 	queryset = Deck.objects.all()
@@ -18,7 +18,3 @@ class DeckModelViewSet(viewsets.ModelViewSet):
 		serialized_deck = DeckCardsSerializer(deck).data
 		return Response(data=serialized_deck, status=status.HTTP_200_OK)
 
-
-class UsersModelViewSet(viewsets.ModelViewSet):
-	queryset = Users.objects.all()
-	serializer_class = UsersSerializer
