@@ -13,6 +13,12 @@ APP_NAME = environ.get('FLY_APP_NAME')
 
 ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev", 'localhost']
 
+MINIO = {
+	'USER': environ.get('MINIO_USER'),
+	'PASSWORD': environ.get('MINIO_PASSWORD'),
+	'URL': 'localhost:9000'
+}
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -29,10 +35,6 @@ DATABASES = {
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# ENVIRONMENT = environ.get('ENVIRONMENT', default='dev')
-
-# DJANGO_SETTINGS_MODULE = f'src.config.{ENVIRONMENT}_settings'
 
 # Application definition
 
@@ -66,7 +68,7 @@ REST_FRAMEWORK = {
 		"rest_framework.authentication.TokenAuthentication"
 	),
 	"DEFAULT_PERMISSION_CLASSES": (
-	    "rest_framework.permissions.IsAuthenticated",
+		"rest_framework.permissions.IsAuthenticated",
 	),
 	"NON_FIELD_ERRORS_KEY": "errors"
 }

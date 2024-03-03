@@ -2,10 +2,12 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import DeckSerializer, UsersSerializer, DeckCardsSerializer
 from .models import Deck, Users
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class DeckModelViewSet(viewsets.ModelViewSet):
 	queryset = Deck.objects.all()
 	serializer_class = DeckSerializer
+	permission_classes = [IsAuthenticatedOrReadOnly]
 
 	def retrieve(self, request, pk):
 		try:

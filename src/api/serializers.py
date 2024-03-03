@@ -5,7 +5,7 @@ from .models import Deck, Card, Users
 class CardSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Card
-		fields = ['id', 'name', 'type', 'cooldown', 'damage', 'attack_range', 'speed', 'life']
+		fields = ['id', 'name', 'type', 'cooldown', 'damage', 'attack_range', 'speed', 'life', 'img_card', 'img_preview', 'img_attack', 'img_death', 'img_walk']
 
 
 class DeckSerializer(serializers.ModelSerializer):

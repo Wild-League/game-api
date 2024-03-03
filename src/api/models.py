@@ -44,12 +44,16 @@ class Card(models.Model):
 	attack_range = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 	cooldown = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 	damage = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-
 	width = models.IntegerField(blank=True, null=True)
 	height = models.IntegerField(blank=True, null=True)
-
 	created_at = models.DateField()
 	updated_at = models.DateField(blank=True, null=True)
+
+	img_card = models.CharField(max_length=255, blank=True, null=True)
+	img_preview = models.CharField(max_length=255, blank=True, null=True)
+	img_attack = models.CharField(max_length=255, blank=True, null=True)
+	img_death = models.CharField(max_length=255, blank=True, null=True)
+	img_walk = models.CharField(max_length=255, blank=True, null=True)
 
 	class Meta:
 		db_table = 'card'
