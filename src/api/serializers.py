@@ -3,8 +3,16 @@ from datetime import datetime
 from rest_framework import serializers
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-from .models import Deck, Card, Users
+from .models import Deck, Card, Users, Waitlist
 from .enums import ActorType
+
+
+class WaitlistSerializer(serializers.ModelSerializer):
+	email = serializers.EmailField(write_only=True)
+
+	class Meta:
+		model = Waitlist
+		fields = ['id', 'email']
 
 
 class AuthSerializer(serializers.ModelSerializer):

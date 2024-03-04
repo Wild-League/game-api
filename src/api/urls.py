@@ -6,6 +6,7 @@ from . import views
 
 router = SimpleRouter()
 router.register('decks', views.DeckModelViewSet)
+router.register('waitlist', views.WaitlistModelViewSet)
 
 urlpatterns = [
 	path(r'auth/signin/', TokenObtainPairView.as_view()),
