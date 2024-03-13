@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from . import views
 
 router = SimpleRouter()
+router.register('cards', views.CardModelViewSet)
 router.register('decks', views.DeckModelViewSet)
 router.register('waitlist', views.WaitlistModelViewSet)
 
