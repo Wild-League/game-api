@@ -8,3 +8,14 @@ class CardModelViewSet(viewsets.ModelViewSet):
 	queryset = Card.objects.all()
 	serializer_class = CardSerializer
 	permission_classes = [IsAuthenticatedOrReadOnly]
+
+	def list(self, request):
+		limit = self.request.query_params.get('limit', None)
+
+		if limit:
+			limit = int(limit)
+
+		queryset = Card.objects.all().order_by('id')[:limit]
+		serializer = CardSerializer(queryset, many=True)
+
+		return Response(serializer.data)
