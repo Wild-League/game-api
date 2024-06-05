@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
+from enum.py import RelationType
 
 
 class Users(AbstractBaseUser):
@@ -107,3 +108,10 @@ class Waitlist(models.Model):
 
 	class Meta:
 		db_table = 'waitlist'
+
+class UserRelation(models.Model):
+    user_1 = models.ForeignKey('Users', on_delete=models.RESTRICT, db_column="user_1")
+    user_2 = models.ForeignKey('Users', on_delete=models.RESTRICT, db_column="user_2")
+    relation_type = models.CharField(max_length=100, choices=RelationType)
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now=True)
