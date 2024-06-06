@@ -3,3 +3,4 @@ __pycache__
 prod_settings.py
 .env
 waitlist.txt
+.DS_Store

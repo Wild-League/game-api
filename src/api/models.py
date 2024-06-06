@@ -44,8 +44,8 @@ class Card(models.Model):
 	attack_range = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 	cooldown = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 	damage = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-	width = models.IntegerField(blank=True, null=True)
-	height = models.IntegerField(blank=True, null=True)
+	frame_width = models.IntegerField(blank=True, null=True)
+	frame_height = models.IntegerField(blank=True, null=True)
 	created_at = models.DateField()
 	updated_at = models.DateField(blank=True, null=True)
 
