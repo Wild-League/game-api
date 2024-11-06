@@ -9,6 +9,13 @@ class DeckModelViewSet(viewsets.ModelViewSet):
 	serializer_class = DeckSerializer
 	permission_classes = [IsAuthenticatedOrReadOnly]
 
+	def list(self, request):
+		print(request)
+		user_id = request.user.id
+		decks = Deck.objects.filter(user_id=user_id)
+		serialized_decks = DeckSerializer(decks, many=True).data
+		return Response(data=serialized_decks, status=status.HTTP_200_OK)
+
 	def retrieve(self, request, pk):
 		try:
 			deck = Deck.objects.get(pk=pk)

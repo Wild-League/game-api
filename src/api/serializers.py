@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from .models import Deck, Card, Users, Waitlist
 from .enums import ActorType
+import hashlib
 
 
 class WaitlistSerializer(serializers.ModelSerializer):
@@ -19,7 +20,7 @@ class AuthSerializer(serializers.ModelSerializer):
 	username = serializers.CharField()
 	email = serializers.EmailField()
 	password = serializers.CharField(write_only=True)
-	agreement = serializers.BooleanField(write_only=True)
+	# agreement = serializers.BooleanField(write_only=True)
 
 	def validate(self, data):
 		if Users.objects.filter(email=data['email']).exists():
@@ -35,10 +36,24 @@ class AuthSerializer(serializers.ModelSerializer):
 
 		private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
 
+		public_key = private_key.public_key().public_bytes(
+			encoding=serialization.Encoding.PEM,
+			format=serialization.PublicFormat.SubjectPublicKeyInfo
+		)
+
+		new_private_key = private_key.private_bytes(
+			encoding=serialization.Encoding.PEM,
+			format=serialization.PrivateFormat.TraditionalOpenSSL,
+			encryption_algorithm=serialization.NoEncryption()
+		)
+
+		public_key_hash = hashlib.sha256(public_key).hexdigest()
+		private_key_hash = hashlib.sha256(new_private_key).hexdigest()
+
 		user = Users(
 			email=self.validated_data['email'],
 			username=username,
-			agreement=self.validated_data['agreement'],
+			# agreement=self.validated_data['agreement'],
 			type=ActorType.PERSON.value,
 			display_name=f'@{username}{settings.DOMAIN}',
 			domain=settings.DOMAIN,
@@ -48,8 +63,8 @@ class AuthSerializer(serializers.ModelSerializer):
 			inbox_url=f'{settings.FRONT_URL}community/{username}/inbox',
 			outbox_url=f'{settings.FRONT_URL}community/{username}/outbox',
 			created_at=datetime.now(),
-			public_key=private_key.public_key().public_bytes(encoding=serialization.Encoding.PEM, format=serialization.PublicFormat.SubjectPublicKeyInfo).decode('utf-8'),
-			private_key=private_key.private_bytes(encoding=serialization.Encoding.PEM, format=serialization.PrivateFormat.TraditionalOpenSSL, encryption_algorithm=serialization.NoEncryption()).decode('utf-8')
+			public_key=public_key_hash,
+			private_key=private_key_hash
 		)
 
 		user.set_password(self.validated_data['password'])

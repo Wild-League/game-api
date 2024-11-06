@@ -19,7 +19,7 @@ class Users(AbstractBaseUser):
 	level = models.IntegerField()
 	email = models.CharField(max_length=100)
 	password = models.CharField(max_length=100)
-	agreement = models.BooleanField()
+	agreement = models.BooleanField(blank=True, null=True)
 	public_key = models.CharField(blank=True, null=True)
 	private_key = models.CharField(blank=True, null=True)
 
