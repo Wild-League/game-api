@@ -1,6 +1,7 @@
+import sys
 from pathlib import Path
 from os import environ, path, getenv
-import sys
+from datetime import timedelta
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,7 +14,7 @@ APP_NAME = environ.get('FLY_APP_NAME')
 
 ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev", 'localhost']
 
-FRONT_URL='http://localhost:3000/'
+FRONT_URL = 'http://localhost:3000/'
 DOMAIN = '@wildleague.org'
 
 MINIO = {
@@ -83,6 +84,11 @@ REST_FRAMEWORK = {
 		"rest_framework.permissions.IsAuthenticated",
 	),
 	"NON_FIELD_ERRORS_KEY": "errors"
+}
+
+SIMPLE_JWT = {
+	'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+	'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 TEMPLATES = [

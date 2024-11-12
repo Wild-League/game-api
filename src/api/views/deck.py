@@ -1,3 +1,4 @@
+from rest_framework.decorators import action
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -20,6 +21,17 @@ class DeckModelViewSet(viewsets.ModelViewSet):
 		try:
 			deck = Deck.objects.get(pk=pk)
 		except Deck.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+
+		serialized_deck = DeckCardsSerializer(deck).data
+		return Response(data=serialized_deck, status=status.HTTP_200_OK)
+
+	@action(detail=False, methods=['get'])
+	def get_current(self, request):
+		user_id = request.user.id
+		deck = Deck.objects.filter(user_id=user_id, is_selected=True).first()
+
+		if not deck:
 			return Response(status=status.HTTP_404_NOT_FOUND)
 
 		serialized_deck = DeckCardsSerializer(deck).data

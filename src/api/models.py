@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
+from src.api.enums import RelationshipType
 
 
 class Users(AbstractBaseUser):
@@ -8,8 +9,8 @@ class Users(AbstractBaseUser):
 	display_name = models.CharField(max_length=85)
 	bio = models.CharField(max_length=500, blank=True, null=True)
 	domain = models.CharField(max_length=60)
-	short_url = models.CharField(max_length=255)
-	long_url = models.CharField(max_length=255)
+	url = models.CharField(max_length=255)
+	long_url = models.CharField(max_length=255, blank=True, null=True)
 	type = models.TextField()
 	inbox_url = models.CharField(max_length=255)
 	outbox_url = models.CharField(max_length=255)
@@ -66,6 +67,7 @@ class Deck(models.Model):
 	created_at = models.DateField()
 	updated_at = models.DateField(blank=True, null=True)
 	cards = models.ManyToManyField(Card, through="DeckCard")
+	is_selected = models.BooleanField(default=False)
 
 	class Meta:
 		db_table = 'deck'
@@ -99,6 +101,18 @@ class Rules(models.Model):
 
 	class Meta:
 		db_table = 'rules'
+
+
+class UsersRelationship(models.Model):
+	user_id_requester = models.ForeignKey(Users, on_delete=models.RESTRICT, db_column="user_id_requester", related_name="user_id_requester")
+	user_id_related = models.ForeignKey(Users, on_delete=models.RESTRICT, db_column="user_id_related", related_name="user_id_related")
+	relationship_type = models.CharField(max_length=25, choices=RelationshipType.choices)
+	created_at = models.DateField()
+	updated_at = models.DateField(blank=True, null=True)
+	activity_id = models.CharField(max_length=255, blank=True, null=True)
+
+	class Meta:
+		db_table = 'users_relationship'
 
 
 class Waitlist(models.Model):

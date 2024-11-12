@@ -4,3 +4,4 @@ prod_settings.py
 .env
 waitlist.txt
 .DS_Store
+test_activity.py
