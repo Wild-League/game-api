@@ -27,7 +27,7 @@ class DeckModelViewSet(viewsets.ModelViewSet):
 		return Response(data=serialized_deck, status=status.HTTP_200_OK)
 
 	@action(detail=False, methods=['get'])
-	def get_current(self, request):
+	def current(self, request):
 		user_id = request.user.id
 		deck = Deck.objects.filter(user_id=user_id, is_selected=True).first()
 

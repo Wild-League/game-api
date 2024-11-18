@@ -1,3 +1,4 @@
+from rest_framework.decorators import action
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -33,3 +34,10 @@ class UsersModelViewSet(viewsets.ModelViewSet):
 			return Response(response_data)
 		except Users.DoesNotExist:
 			return Response(status=status.HTTP_404_NOT_FOUND)
+
+	@action(detail=False, methods=['get'])
+	def me(self, request):
+		user_id = request.user.id
+		user = Users.objects.get(id=user_id)
+		serialized_user = UsersSerializer(user).data
+		return Response(data=serialized_user, status=status.HTTP_200_OK)
