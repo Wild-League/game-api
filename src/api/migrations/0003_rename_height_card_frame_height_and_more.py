@@ -10,14 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='card',
-            old_name='height',
-            new_name='frame_height',
-        ),
-        migrations.RenameField(
-            model_name='card',
-            old_name='width',
-            new_name='frame_width',
-        ),
+        # migrations.RenameField(
+        #     model_name='card',
+        #     old_name='height',
+        #     new_name='frame_height',
+        # ),
+        # migrations.RenameField(
+        #     model_name='card',
+        #     old_name='width',
+        #     new_name='frame_width',
+        # ),
     ]
